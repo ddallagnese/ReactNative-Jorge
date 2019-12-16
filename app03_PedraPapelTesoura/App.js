@@ -3,90 +3,114 @@ import {
   View,
   Text,
   Button,
-  Image
+  StyleSheet
 } from 'react-native';
+import Topo from './src/components/topo';
+import Icone from './src/components/icone';
+
 
 class App extends Component {
-    
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state = { escolhaUsuario : '', escolhaComputador: '', resultado: '' }
+        this.state = { escolhaUsuario: '',
+                       escolhaComputador: '',
+                       resultado: '' }
     }
 
-    jokenpo(escolhaUsuario){
-        // Escolha do computador
-        var numAleatorio = Math.floor(Math.random() * 3)
-        var escolhaComputador = ''
+    jokenpo(escolhaUsuario) {
+        const numAleatorio = Math.floor(Math.random() * 3)
+        let escolhaComputador = ''
 
-        switch(numAleatorio){
+        switch (numAleatorio) {
             case 0: escolhaComputador = 'pedra'; break;
             case 1: escolhaComputador = 'papel'; break;
             case 2: escolhaComputador = 'tesoura'; break;
         }
 
-        var resultado = ''
-        if (escolhaComputador == 'pedra'){
-            if (escolhaUsuario == 'pedra'){
+        let resultado = ''
+        if (escolhaComputador === 'pedra') {
+            if (escolhaUsuario === 'pedra') {
                 resultado = 'Empate'
             }
-            if (escolhaUsuario == 'papel'){
-                resultado = 'Usuário ganhou'
+            if (escolhaUsuario === 'papel') {
+                resultado = 'Você ganhou'
             }
-            if (escolhaUsuario == 'tesoura'){
-                resultado = 'Computador ganhou'
+            if (escolhaUsuario === 'tesoura') {
+                resultado = 'Você perdeu'
             }
         }
-        if (escolhaComputador == 'papel'){
-            if (escolhaUsuario == 'papel'){
+        if (escolhaComputador === 'papel') {
+            if (escolhaUsuario === 'papel') {
                 resultado = 'Empate'
             }
-            if (escolhaUsuario == 'tesoura'){
-                resultado = 'Usuário ganhou'
+            if (escolhaUsuario === 'tesoura') {
+                resultado = 'Você ganhou'
             }
-            if (escolhaUsuario == 'pedra'){
-                resultado = 'Computador ganhou'
+            if (escolhaUsuario === 'pedra') {
+                resultado = 'Você perdeu'
             }
         }
-        if (escolhaComputador == 'tesoura'){
-            if (escolhaUsuario == 'tesoura'){
+        if (escolhaComputador === 'tesoura') {
+            if (escolhaUsuario === 'tesoura') {
                 resultado = 'Empate'
             }
-            if (escolhaUsuario == 'pedra'){
-                resultado = 'Usuário ganhou'
+            if (escolhaUsuario === 'pedra') {
+                resultado = 'Você ganhou'
             }
-            if (escolhaUsuario == 'papel'){
-                resultado = 'Computador ganhou'
+            if (escolhaUsuario === 'papel') {
+                resultado = 'Você perdeu'
             }
         }
 
-        this.setState({ escolhaUsuario,
-                        escolhaComputador,
-                        resultado})
+        this.setState({escolhaUsuario,
+                       escolhaComputador,
+                       resultado})
     }
 
     render() {
         return(
             <View>
-                <Topo></Topo>
-                <Text>Escolha Computador: {this.state.escolhaComputador} </Text>
-                <Text>Escolha Usuário: {this.state.escolhaUsuario} </Text>
-                <Text>Resultado: {this.state.resultado}</Text>
-                <Button title="pedra" onPress={ () => {this.jokenpo('pedra')}} />
-                <Button title="papel" onPress={ () => {this.jokenpo('papel')}} />
-                <Button title="tesoura" onPress={ () => {this.jokenpo('tesoura')}} />
+                <Topo />
+                <View style={estilos.painelAcoes}>
+                    <View style={estilos.btnEscolha}>
+                        <Button title="pedra" onPress={ () => {this.jokenpo('pedra')}} />
+                    </View>
+                    <View style={estilos.btnEscolha}>
+                        <Button title="papel" onPress={ () => {this.jokenpo('papel')}} />
+                    </View>
+                    <View style={estilos.btnEscolha}>
+                        <Button title="tesoura" onPress={ () => {this.jokenpo('tesoura')}} />
+                    </View>
+                </View>
+                <View style={estilos.palco}>
+                    <Text style={estilos.txtResultado}>{this.state.resultado}</Text>
+                    <Icone escolha={this.state.escolhaComputador} jogador='Computador' />
+                    <Icone escolha={this.state.escolhaUsuario} jogador='Usuário' />
+                </View>
             </View>
         )
     }
 }
 
-class Topo extends Component {
-    render(){
-        return(
-            <View>
-                <Image source={require('./imgs/jokenpo.png')} />
-            </View>
-        )
+const estilos = StyleSheet.create({
+    btnEscolha: {
+        width: 90
+    },
+    painelAcoes: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10
+    },
+    palco: {
+        alignItems: 'center',
+        marginTop: 10
+    },
+    txtResultado: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: 'red',
+        height: 60
     }
-}
+})
 
 export default App;
