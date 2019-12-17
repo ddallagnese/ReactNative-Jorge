@@ -2,7 +2,11 @@ import React from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 
 export default props => (
-    <TextInput style={Estilos.numero} value={props.num}/>
+    <TextInput
+        style={Estilos.numero}
+        value={props.num}
+        onChangeText={ valorDoCampo => props.atualizaValor(props.nome, valorDoCampo)}
+    />
 )
 
 const Estilos = StyleSheet.create({

@@ -11,7 +11,9 @@ export default class Visor extends Component {
             <View>
                 <TextInput style={Estilos.Visor}
                     placeholder='Resultado'
-                    editable={false} />
+                    editable={false}
+                    value={this.props.resultado}    
+                />
             </View>
         )
     }
