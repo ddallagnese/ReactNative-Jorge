@@ -10,18 +10,18 @@ class formLogin extends Component {
             return(
                 <View style={{ backgroundColor: '#115E54' }}>
                     <Button 
-                        title="Acessar" 
+                        title='Acessar' 
                         color='#fff'
-                        onPress={() => this._autenticaUsuario} />
+                        onPress={() => this._autenticaUsuario()} />
                 </View>
             )
         }
 
     return(
             <Button 
-                title="Acessar" 
+                title='Acessar' 
                 color='#115E54'
-                onPress={() => this._autenticaUsuario} />
+                onPress={() => this._autenticaUsuario()} />
         )
     }
 
@@ -53,6 +53,9 @@ class formLogin extends Component {
                             placeholder='Senha' 
                             placeholderTextColor='#fff' 
                             onChangeText={texto => this.props.modificaSenha(texto)} />
+                        <Text style={{color: 'red', fontSize: 18 }}>
+                            {this.props.erroLogin}
+                        </Text>
                         <TouchableHighlight onPress={() => Actions.formCadastro() }>
                             <Text style={{ fontSize: 20, color: '#fff' }}>
                                 Ainda não tem cadastro? Cadastre-se
@@ -71,7 +74,8 @@ class formLogin extends Component {
 const mapStateToProps = state => (
     {
         email: state.AutenticacaoReducer.email,
-        senha: state.AutenticacaoReducer.senha
+        senha: state.AutenticacaoReducer.senha,
+        erroLogin: state.AutenticacaoReducer.erroLogin
     }
 )
 

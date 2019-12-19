@@ -1,35 +1,52 @@
 import firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'
 import b64 from 'base-64'
+import { 
+    MODIFICA_EMAIL, 
+    MODIFICA_NOME, 
+    MODIFICA_SENHA, 
+    CADASTRO_USUARIO_ERRO, 
+    CADASTRO_USUARIO_SUCESSO, 
+    LOGIN_USUARIO_ERRO, 
+    LOGIN_USUARIO_SUCESSO 
+} from './Types'
 
 export const modificaNome = (texto) => {
     return {
-        type: 'modifica_nome',
+        type: MODIFICA_NOME,
         payload: texto
     }
 }
 
 export const modificaEmail = (texto) => {
     return {
-        type: 'modifica_email',
+        type: MODIFICA_EMAIL,
         payload: texto
     }
 }
 
 export const modificaSenha = (texto) => {
     return {
-        type: 'modifica_senha',
+        type: MODIFICA_SENHA,
         payload: texto
     }
 }
 
 export const autenticaUsuario = ({ email, senha}) => {
-    firebase.auth().signInWithEmailAndPassword(email, senha)
-        .then(value => console.log(value))
-        .catch(erro => console.log(value))
-    return {
-        type: 'teste'
+    return dispatch => {
+        firebase.auth().signInWithEmailAndPassword(email, senha)
+            .then(value => loginUsuarioSucesso(dispatch))
+            .catch(erro => loginUsuarioErro(erro, dispatch))
     }
+}
+
+const loginUsuarioSucesso = (dispatch) => {
+    dispatch ({ type: LOGIN_USUARIO_SUCESSO })
+    Actions.principal()
+}
+
+const loginUsuarioErro = (erro, dispatch) => {
+    dispatch ({ type: LOGIN_USUARIO_ERRO, payload: erro.message })
 }
 
 export const cadastraUsuario = ({nome, email, senha}) => {
@@ -47,10 +64,10 @@ export const cadastraUsuario = ({nome, email, senha}) => {
 }
 
 const cadastroUsuarioSucesso = (dispatch) => {
-    dispatch ({ type: 'cadastro_usuario_sucesso' })
+    dispatch ({ type: CADASTRO_USUARIO_SUCESSO })
     Actions.boasVindas()
 }
 
 const cadastroUsuarioErro = (erro, dispatch) => {
-    dispatch ({ type: 'cadastro_usuario_erro', payload: erro.message })
+    dispatch ({ type: CADASTRO_USUARIO_ERRO, payload: erro.message })
 }
