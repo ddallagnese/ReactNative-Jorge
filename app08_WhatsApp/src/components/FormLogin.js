@@ -47,6 +47,8 @@ class formLogin extends Component {
                     <View style={{ flex: 2}}>
                         <TextInput
                             value={this.props.email} 
+                            keyboardType='email-address'
+                            autoCapitalize='none'
                             style={{ fontSize: 20, height: 45, color: '#fff' }} 
                             placeholder='E-mail' 
                             placeholderTextColor='#fff' 

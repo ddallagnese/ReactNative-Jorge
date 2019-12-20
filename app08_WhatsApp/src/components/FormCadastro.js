@@ -50,6 +50,8 @@ class formCadastro extends Component {
                             onChangeText={texto => this.props.modificaNome(texto)} />
                         <TextInput
                             value={this.props.email} 
+                            keyboardType='email-address'
+                            autoCapitalize='none'
                             placeholder='E-mail' 
                             placeholderTextColor='#fff' 
                             style={{ fontSize: 20, height: 45, color: '#fff' }} 
