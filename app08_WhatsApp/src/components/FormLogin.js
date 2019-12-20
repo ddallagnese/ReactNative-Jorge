@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button, TouchableHighlight, ImageBackground, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, TouchableHighlight, ImageBackground, Platform, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
 import { modificaEmail, modificaSenha, autenticaUsuario } from '../actions/AutenticacaoActions'
 
 class formLogin extends Component {
-    _botaoAcessar() {
+    renderBtnAcessar() {
+        if (this.props.loadingLogin) {
+            return(
+                <ActivityIndicator size='large'/>
+            )
+        }
         if (Platform.OS == 'ios'){
             return(
                 <View style={{ backgroundColor: '#115E54' }}>
@@ -63,7 +68,7 @@ class formLogin extends Component {
                         </TouchableHighlight>
                     </View>
                     <View style={{ flex: 2}}>
-                        {this._botaoAcessar()}
+                        {this.renderBtnAcessar()}
                     </View>
                 </View>
             </ImageBackground>
@@ -75,7 +80,8 @@ const mapStateToProps = state => (
     {
         email: state.AutenticacaoReducer.email,
         senha: state.AutenticacaoReducer.senha,
-        erroLogin: state.AutenticacaoReducer.erroLogin
+        erroLogin: state.AutenticacaoReducer.erroLogin,
+        loadingLogin: state.AutenticacaoReducer.loadingLogin
     }
 )
 

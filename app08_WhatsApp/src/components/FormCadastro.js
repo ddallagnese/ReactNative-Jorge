@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button, ImageBackground } from 'react-native';
+import { View, Text, TextInput, Button, ImageBackground, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux'
 import { 
     modificaNome,
@@ -8,12 +8,17 @@ import {
     cadastraUsuario } from '../actions/AutenticacaoActions'
 
 class formCadastro extends Component {
-    _botaoCadastrar() {
+    renderBtnCadastrar() {
+        if (this.props.loadingCadastro) {
+            return(
+                <ActivityIndicator size='large'/>
+            )
+        }
         if (Platform.OS == 'ios'){
             return(
                 <View style={{ backgroundColor: '#115E54' }}>
                     <Button 
-                        title="Cadastrar" 
+                        title='Cadastrar' 
                         color='#fff'
                         onPress={() => this._cadastraUsuario()} />
                 </View>
@@ -21,7 +26,7 @@ class formCadastro extends Component {
         }
         return(
             <Button 
-                title="Cadastrar" 
+                title='Cadastrar' 
                 color='#115E54'
                 onPress={() => this._cadastraUsuario()} />
         )
@@ -39,20 +44,20 @@ class formCadastro extends Component {
                     <View style={{ flex: 4, justifyContent: 'center' }}>
                         <TextInput
                             value={this.props.nome} 
-                            placeholder="Nome" 
+                            placeholder='Nome' 
                             placeholderTextColor='#fff' 
                             style={{ fontSize: 20, height: 45, color: '#fff' }} 
                             onChangeText={texto => this.props.modificaNome(texto)} />
                         <TextInput
                             value={this.props.email} 
-                            placeholder="E-mail" 
+                            placeholder='E-mail' 
                             placeholderTextColor='#fff' 
                             style={{ fontSize: 20, height: 45, color: '#fff' }} 
                             onChangeText={texto => this.props.modificaEmail(texto)} />
                         <TextInput
                             secureTextEntry 
                             value={this.props.senha} 
-                            placeholder="Senha" 
+                            placeholder='Senha' 
                             placeholderTextColor='#fff' 
                             style={{ fontSize: 20, height: 45, color: '#fff' }} 
                             onChangeText={texto => this.props.modificaSenha(texto)} />
@@ -61,7 +66,7 @@ class formCadastro extends Component {
                         </Text>
                     </View>
                     <View style={{ flex: 1 }}>
-                        {this._botaoCadastrar()}
+                        {this.renderBtnCadastrar()}
                     </View>
                 </View>
             </ImageBackground>
@@ -74,7 +79,8 @@ const mapStateToProps = state => (
         nome: state.AutenticacaoReducer.nome,
         email: state.AutenticacaoReducer.email,
         senha: state.AutenticacaoReducer.senha,
-        erroCadastro: state.AutenticacaoReducer.erroCadastro
+        erroCadastro: state.AutenticacaoReducer.erroCadastro,
+        loadingCadastro: state.AutenticacaoReducer.loadingCadastro
     }
 )
 
