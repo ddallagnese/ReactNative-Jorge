@@ -4,35 +4,48 @@ import { connect } from 'react-redux'
 import { contatosUsuarioFetch } from '../actions/AppActions'
 import _ from 'lodash'
 import { ListView } from 'deprecated-react-native-listview'
+import { TouchableHighlight } from 'react-native-gesture-handler'
+import { Actions } from 'react-native-router-flux'
 
 class Contatos extends Component {
-    constructor(props) {
-        super(props)
+    
+    UNSAFE_componentWillMount() {
+        this.props.contatosUsuarioFetch()
+        this.criaFonteDeDados(this.props.contatos)
+    }
 
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        this.criaFonteDeDados(nextProps.contatos)
+    }
+
+    criaFonteDeDados( contatos ) {
         // const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
-        this.state = {fonteDeDados: [
-            { id: '1', nome: 'Registro 1' },
-            { id: '2', nome: 'Registro 2' },
-            { id: '3', nome: 'Registro 3' },
-            { id: '4', nome: 'Registro 4' }
-        ]}
+        this.fonteDeDados = contatos
     }
-    
-    componentWillMount() {
-        this.props.contatosUsuarioFetch()
+
+    renderItem(contato) {
+        return (
+            <TouchableHighlight
+                onPress={ () => Actions.conversa({
+                    title: contato.nome, 
+                    contatoNome: contato.nome,
+                    contatoEmail: contato.email }) }
+            >
+                <View style={{ flex: 1, padding: 20, borderBottomWidth: 1, borderColor: '#CCC' }}>
+                    <Text style={{ fontSize: 25 }}>{contato.nome}</Text>
+                    <Text style={{ fontSize: 18 }}>{contato.email}</Text>
+                </View>
+            </TouchableHighlight>
+        )
     }
 
     render() {
         return (
             <FlatList
-                data={this.state.fonteDeDados}
-                renderItem={({ item }) => <View>
-                                              <Text>
-                                                  {item.nome}
-                                              </Text>
-                                          </View>}
-                keyExtractor={item => item.id}                                          
+                data={this.fonteDeDados}
+                renderItem={({item}) => this.renderItem(item)}
+                keyExtractor={item => item.uid}
             />
             // <ListView
             //     dataSource={this.state.fonteDeDados}
@@ -50,7 +63,7 @@ mapStateToProps = state => {
     const contatos = _.map(state.ListaContatosReducer, (val, uid) => {
         return { ...val, uid }
     })
-    return {}
+    return { contatos }
 }
 
 export default connect(mapStateToProps, { contatosUsuarioFetch })(Contatos)

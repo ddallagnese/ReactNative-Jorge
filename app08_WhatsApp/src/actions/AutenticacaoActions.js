@@ -40,7 +40,7 @@ export const autenticaUsuario = ({ email, senha}) => {
         firebase.auth().signInWithEmailAndPassword(email, senha)
             .then(value => loginUsuarioSucesso(dispatch))
             .catch(erro => loginUsuarioErro(erro, dispatch))
-    }
+        }
 }
 
 const loginUsuarioSucesso = (dispatch) => {
