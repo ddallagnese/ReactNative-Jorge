@@ -3,7 +3,6 @@ import { View, Text, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import { contatosUsuarioFetch } from '../actions/AppActions'
 import _ from 'lodash'
-import { ListView } from 'deprecated-react-native-listview'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import { Actions } from 'react-native-router-flux'
 
@@ -19,8 +18,6 @@ class Contatos extends Component {
     }
 
     criaFonteDeDados( contatos ) {
-        // const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-
         this.fonteDeDados = contatos
     }
 
@@ -47,14 +44,6 @@ class Contatos extends Component {
                 renderItem={({item}) => this.renderItem(item)}
                 keyExtractor={item => item.uid}
             />
-            // <ListView
-            //     dataSource={this.state.fonteDeDados}
-            //     renderRow={data => <View>
-            //                             <Text>
-            //                                 {data}
-            //                             </Text>
-            //                         </View>}
-            // />
         )
     }
 }
